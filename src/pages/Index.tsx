@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import ConfiguracaoAssinatura from '@/components/ConfiguracaoAssinatura';
+
+interface DetalhesAssinaturaType {
+  nomeServidor: string;
+  ciclo: 'mensal' | 'anual';
+}
 
 const Index = () => {
+  const [detalhes, setDetalhes] = useState<DetalhesAssinaturaType>({
+    nomeServidor: '',
+    ciclo: 'mensal'
+  });
+
+  const atualizarDetalhes = <K extends keyof DetalhesAssinaturaType>(
+    campo: K, 
+    valor: DetalhesAssinaturaType[K]
+  ) => {
+    setDetalhes(prev => ({ ...prev, [campo]: valor }));
+  };
+
+  const handleNextStep = () => {
+    console.log('Próximo passo:', detalhes);
+    // Aqui você pode navegar para a próxima etapa
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <ConfiguracaoAssinatura
+      detalhes={detalhes}
+      atualizarDetalhes={atualizarDetalhes}
+      onNextStep={handleNextStep}
+      monthlyPriceDisplay="R$ 29,90"
+      annualPriceDisplay="R$ 299,00"
+    />
   );
 };
 
